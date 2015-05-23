@@ -1,9 +1,15 @@
 <template name="index">
   <form class="add-playlist">
     <label for="playlistId">Playlist ID:</label>
-    <input type="text" name="playlistId" size="100" placeholder="Enter playlist id" />
+    <input type="text" name="playlistId" size="100" placeholder="Enter playlist id" value="PLnq7V0ygBnUGuQBDor-tCGU4IG09Ygv9a"/>
+    <br/>
+    <label for="numSongs">Number of Songs:</label>
+    <input type="text" name="numSongs" size="20" placeholder="Enter # of Songs" value="60"/>
+    <br/>
+    <label for="songDuration">Song Duration (seconds):</label>
+    <input type="text" name="songDuration" size="20" placeholder="Enter Song Duration (seconds)" value="60"/>
   </form>
-  <input type="button" class="stopButton" value="STOP!">
+  Commands: <input type="button" class="stopButton" value="STOP!">
   <br/>
   <div id="player"></div>
 </template>

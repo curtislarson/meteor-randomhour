@@ -1,7 +1,50 @@
+// Global Variables
 var player = null;
 var timer = null;
-var SONG_LENGTH = 60;
+var SONG_DURATION = 0;
+var NUM_SONGS = 0;
+var songCounter = 0;
 
+// YouTube Player Events
+var onPlayerReady = function(event) {
+  console.log("Player ready!");
+}
+
+var onPlayerStateChange = function(event) {
+  var state = event.data;
+  if (state == YT.PlayerState.PLAYING) {
+    // Start up another video
+    songCounter++;
+    if (songCounter >= NUM_SONGS) {
+      // We don't want to play any more songs.
+      player.stopVideo();
+      return;
+    }
+    timer = setTimeout(function() {
+      player.nextVideo();
+      player.pauseVideo();
+      randomStart();
+    }, SONG_DURATION * 1000);
+  }
+  else if (state == YT.PlayerState.CUED) {
+    console.log("Video cued");
+    randomStart();
+  }
+}
+
+onYouTubeIframeAPIReady = function () {
+  player = new YT.Player("player", {
+      height: "400", 
+      width: "600", 
+      events: {
+        "onReady": onPlayerReady,
+        "onStateChange": onPlayerStateChange
+      }
+  });
+};
+
+
+// Middleware functions
 var randomStart = function() {
   if (!player) {
     console.log("Cannot generate start time, player null");
@@ -18,66 +61,15 @@ var randomStart = function() {
 
 }
 
-// zedd id = Sl2HeP8RlfU
-// playlist = PLnq7V0ygBnUGuQBDor-tCGU4IG09Ygv9a
-
-
-var onPlayerReady = function(event) {
-  console.log("Player ready!");
-  //event.target.playVideo();
-  /*player.loadVideoById({
-    "videoId": "Sl2HeP8RlfU",
-    "startSeconds": 5
-  });*/
-
-  //event.target.playVideo();
-}
-
-var onPlayerStateChange = function(event) {
-  var state = event.data;
-  if (state == YT.PlayerState.PLAYING) {
-    console.log("Video playing");
-    // Start up another video
-    timer = setTimeout(function() {
-      player.nextVideo();
-      player.pauseVideo();
-      randomStart();
-    }, SONG_LENGTH * 1000);
-  }
-  else if (state == YT.PlayerState.CUED) {
-    console.log("Video cued");
-    randomStart();
-  }
-}
-
-// Setup the youtube player
-
-onYouTubeIframeAPIReady = function () {
-
-  // New Video Player, the first argument is the id of the div.
-  // Make sure it's a global variable.
-  player = new YT.Player("player", {
-
-      height: "400", 
-      width: "600", 
-
-      // videoId is the "v" in URL (ex: http://www.youtube.com/watch?v=LdH1hSWGFGU, videoId = "LdH1hSWGFGU")
-      //videoId: "Sl2HeP8RlfU", 
-
-      // Events like ready, state change, 
-      events: {
-        "onReady": onPlayerReady,
-        "onStateChange": onPlayerStateChange
-      }
-  });
-
-};
-
-var loadPlaylist = function(playlistId) {
+var loadPlaylist = function(playlistId, numSongs, songDuration) {
   if (!player) {
     console.log("Player not initialized!");
     return;
   }
+
+  // Global variables are gross!
+  NUM_SONGS = numSongs;
+  SONG_DURATION = songDuration;
 
   player.cuePlaylist({
     list: playlistId,
@@ -87,10 +79,9 @@ var loadPlaylist = function(playlistId) {
   player.setShuffle(true);
 }
 
-
+// UI Methods
 Template.index.onRendered(function() {
   console.log("Index rendered");
-
   YT.load();
 });
 
@@ -98,8 +89,9 @@ Template.index.events({
 
   "submit .add-playlist": function(event) {
     var playlistId = event.target.playlistId.value;
-    console.log("playlistId=", playlistId);
-    loadPlaylist(playlistId);
+    var numSongs = event.target.numSongs.value;
+    var songDuration = event.target.songDuration.value;
+    loadPlaylist(playlistId, numSongs, songDuration);
     return false;
   },
 
