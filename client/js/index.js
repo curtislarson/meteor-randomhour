@@ -23,15 +23,10 @@ var onPlayerStateChange = function(event) {
       player.stopVideo();
       return;
     }
-    timer = setTimeout(function() {
-      player.nextVideo();
-      player.pauseVideo();
-      randomStart();
-    }, SONG_DURATION * 1000);
   }
   else if (state == YT.PlayerState.CUED) {
     console.log("Video cued");
-    randomStart();
+    startNextRandomVideo();
   }
 }
 
@@ -48,7 +43,7 @@ onYouTubeIframeAPIReady = function () {
 
 
 // Middleware functions
-var randomStart = function() {
+var startNextRandomVideo = function() {
   if (!player) {
     console.log("Cannot generate start time, player null");
     return;
@@ -57,22 +52,18 @@ var randomStart = function() {
   // Duration of the current video
   var duration = player.getDuration();
   console.log("duration = ", duration);
-  var startTime = Math.floor(Math.random() * (duration - 1 + 1)) + 1;
+  var startTime = Math.floor(Math.random() * (duration - 1 + 10)) + 10;
   console.log("startTime=", startTime);
   player.seekTo(startTime, true);
   player.playVideo();
 
 }
 
-var loadPlaylist = function(playlistId, numSongs, songDuration) {
+var preparePlaylist = function(playlistId) {
   if (!player) {
     console.log("Player not initialized!");
     return;
   }
-
-  // Global variables are gross!
-  NUM_SONGS = numSongs;
-  SONG_DURATION = songDuration;
 
   player.cuePlaylist({
     list: playlistId,
@@ -80,6 +71,19 @@ var loadPlaylist = function(playlistId, numSongs, songDuration) {
     startSeconds: 1
   });
   player.setShuffle(true);
+}
+
+var startTimer = function() {
+  timer = HighResolutionTimer({
+    duration: SONG_DURATION * 1000,
+    callback: function(timer) {
+      player.nextVideo();
+      player.pauseVideo();
+      startNextRandomVideo();
+    }
+  });
+
+  timer.run();
 }
 
 // UI Methods
@@ -92,15 +96,16 @@ Template.index.events({
 
   "submit .add-playlist": function(event) {
     var playlistId = event.target.playlistId.value;
-    var numSongs = event.target.numSongs.value;
-    var songDuration = event.target.songDuration.value;
-    loadPlaylist(playlistId, numSongs, songDuration);
+    NUM_SONGS = event.target.numSongs.value;
+    SONG_DURATION = event.target.songDuration.value;
+    preparePlaylist(playlistId);
+    startTimer();
     return false;
   },
 
   "click .stopButton": function(event) {
     console.log("STOP!");
-    clearTimeout(timer);
+    timer.stop();
     player.stopVideo();
     return false;
   }
