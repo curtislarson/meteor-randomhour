@@ -10,6 +10,9 @@ var onPlayerReady = function(event) {
   console.log("Player ready!");
 }
 
+// TODO:
+// Update setTimeout to use a more accurate timer like from below
+// https://gist.github.com/tanepiper/4215634
 var onPlayerStateChange = function(event) {
   var state = event.data;
   if (state == YT.PlayerState.PLAYING) {
