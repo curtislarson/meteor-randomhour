@@ -2,6 +2,7 @@
 var player = null;
 var timer = null;
 var SONG_DURATION = 0;
+var SONG_BUFFER = 2000; // 2 second buffer
 var NUM_SONGS = 0;
 var songCounter = 0;
 
@@ -26,7 +27,8 @@ var onPlayerStateChange = function(event) {
   }
   else if (state == YT.PlayerState.CUED) {
     console.log("Video cued");
-    startNextRandomVideo();
+    player.setShuffle(true);
+    startTimer();
   }
 }
 
@@ -51,9 +53,10 @@ var startNextRandomVideo = function() {
 
   // Duration of the current video
   var duration = player.getDuration();
-  console.log("duration = ", duration);
   var startTime = Math.floor(Math.random() * (duration - 1 + 10)) + 10;
+  console.log("duration = ", duration);
   console.log("startTime=", startTime);
+
   player.seekTo(startTime, true);
   player.playVideo();
 
@@ -70,17 +73,19 @@ var preparePlaylist = function(playlistId) {
     listType: "playlist",
     startSeconds: 1
   });
-  player.setShuffle(true);
+}
+
+var nextVideo = function(timer) {
+  console.log("nextVideo time=", new Date());
+  player.nextVideo();
+  player.pauseVideo();
+  startNextRandomVideo();
 }
 
 var startTimer = function() {
   timer = HighResolutionTimer({
-    duration: SONG_DURATION * 1000,
-    callback: function(timer) {
-      player.nextVideo();
-      player.pauseVideo();
-      startNextRandomVideo();
-    }
+    duration: SONG_DURATION * 1000 + SONG_BUFFER,
+    callback: nextVideo
   });
 
   timer.run();
@@ -99,7 +104,6 @@ Template.index.events({
     NUM_SONGS = event.target.numSongs.value;
     SONG_DURATION = event.target.songDuration.value;
     preparePlaylist(playlistId);
-    startTimer();
     return false;
   },
 
