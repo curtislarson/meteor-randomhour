@@ -2,7 +2,7 @@
 var player = null;
 var timer = null;
 var SONG_DURATION = 0;
-var SONG_BUFFER = 2000; // 2 second buffer
+var SONG_BUFFER = 2; // 2 second buffer
 var NUM_SONGS = 0;
 var songCounter = 0;
 
@@ -53,8 +53,11 @@ var startNextRandomVideo = function() {
 
   // Duration of the current video
   var duration = player.getDuration();
-  var maxStartTime = duration - (SONG_DURATION + SONG_BUFFER);
-  var startTime = Math.floor(Math.random() * maxStartTime) + 10;
+  var maxStartTime = duration;
+  if (duration > SONG_DURATION) {
+    maxStartTime = duration - (SONG_DURATION + SONG_BUFFER); 
+  }
+  var startTime = Math.floor(Math.random() * maxStartTime) + 5;
   console.log("duration = ", duration);
   console.log("startTime=", startTime);
 
@@ -85,7 +88,7 @@ var nextVideo = function(timer) {
 
 var startTimer = function() {
   timer = HighResolutionTimer({
-    duration: SONG_DURATION * 1000 + SONG_BUFFER,
+    duration: (SONG_DURATION * 1000) + (SONG_BUFFER * 1000),
     callback: nextVideo
   });
 
@@ -96,6 +99,7 @@ var startTimer = function() {
 Template.index.onRendered(function() {
   console.log("Index rendered");
   YT.load();
+  YTConfig.host = "http://www.youtube.com"
 });
 
 Template.index.events({
