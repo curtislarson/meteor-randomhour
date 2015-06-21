@@ -53,7 +53,8 @@ var startNextRandomVideo = function() {
 
   // Duration of the current video
   var duration = player.getDuration();
-  var startTime = Math.floor(Math.random() * (duration - 1 + 10)) + 10;
+  var maxStartTime = duration - (SONG_DURATION + SONG_BUFFER);
+  var startTime = Math.floor(Math.random() * maxStartTime) + 10;
   console.log("duration = ", duration);
   console.log("startTime=", startTime);
 
