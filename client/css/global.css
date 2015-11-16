@@ -9,14 +9,31 @@ body, html {
   margin-top: 30px;
 }
 
+.large-bottom-margin {
+  margin-bottom: 100px;
+}
+
+.label-margin {
+  margin-top: 5px;
+}
+
 /* TEXT */
 
 .center-text {
   text-align: center;
 }
 
+.left-text {
+  text-align: left;
+}
+
 .red {
   color: #DC2725;
+}
+
+label {
+  font-size: 16px;
+  font-weight: 400;
 }
 
 /* BUTTONS */
