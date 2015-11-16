@@ -55,8 +55,9 @@ var startNextRandomVideo = function() {
   var duration = player.getDuration();
   var maxStartTime = duration;
   if (duration > SONG_DURATION) {
-    maxStartTime = duration - (SONG_DURATION + SONG_BUFFER); 
+    maxStartTime = duration - (SONG_DURATION + SONG_BUFFER);
   }
+  console.log(maxStartTime);
   var startTime = Math.floor(Math.random() * maxStartTime) + 5;
   console.log("duration = ", duration);
   console.log("startTime=", startTime);
@@ -106,8 +107,8 @@ Template.index.events({
 
   "submit .add-playlist": function(event) {
     var playlistId = event.target.playlistId.value;
-    NUM_SONGS = event.target.numSongs.value;
-    SONG_DURATION = event.target.songDuration.value;
+    NUM_SONGS = parseInt(event.target.numSongs.value);
+    SONG_DURATION = parseInt(event.target.songDuration.value);
     preparePlaylist(playlistId);
     return false;
   },

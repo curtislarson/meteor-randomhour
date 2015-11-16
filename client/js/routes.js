@@ -1,17 +1,31 @@
 Router.route("/", {
   name: "index",
-
+  layoutTemplate: "mainLayout",
   action: function() {
     this.render("index");
   }
 });
 
-Router.route("/demo", {
-  name: "demo",
-
+Router.route("/login", {
+  name: "login",
+  layoutTemplate: "mainLayout",
   action: function() {
-    Meteor.call("generateDemo", function(err, or) {
-      Router.go("index");
-    })
+    this.render("login");
   }
-})
+});
+
+Router.route("/register", {
+  name: "register",
+  layoutTemplate: "mainLayout",
+  action: function() {
+    this.render("register");
+  }
+});
+
+Router.route("/about", {
+  name: "about",
+  layoutTemplate: "mainLayout",
+  action: function() {
+    this.render("about");
+  }
+});
