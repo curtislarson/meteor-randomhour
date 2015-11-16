@@ -35,5 +35,13 @@ Meteor.methods({
       powerHourSlug: powerHourSlug,
       metadataId: metadataId
     };
+  },
+
+  incrementPlayCount: function(id) {
+    PowerHours.update({_id: id}, {
+      $inc: {
+        numPlayed: 1
+      }
+    });
   }
 });

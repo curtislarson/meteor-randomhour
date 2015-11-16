@@ -3,6 +3,9 @@ HighResolutionTimer = (function() {
  
   var HighResolutionTimer = function(options) {
     this.timer = false;
+
+    this.paused = false;
+    this.savedTime = 0;
  
     this.total_ticks = 0;
  
@@ -29,8 +32,20 @@ HighResolutionTimer = (function() {
  
       return this;
     };
+
+    this.pause = function() {
+      var now = Date.now();
+      this.savedTime = now - this.current_time;
+      clearTimeout(this.timer);
+      return this;
+    };
+
+    this.unpause = function() {
+      this.current_time = Date.now();
+      var nextTick = this.savedTime - (this.current_time - (this.start_time + (this.total_ticks * this.duration) ) );
+    }
  
-    this.stop = function(){
+    this.stop = function() {
       clearTimeout(this.timer);
       return this;
     };

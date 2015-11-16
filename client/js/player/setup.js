@@ -19,7 +19,7 @@ Template.setup.events({
     }
   }, 200),
 
-  "keydown #setupForm": function() {
+  "keyup #setupForm": function() {
     event.stopPropagation();
   },
 
@@ -54,9 +54,15 @@ AutoForm.addHooks("setupForm", {
 
     var that = this;
 
+    var selectedPlaylist = SelectedPlaylist.get();
+    if (!selectedPlaylist) {
+      Notifications.error("Please select a playlist!");
+      return false;
+    }
+
     Meteor.call("createPowerHour",
                 insertDoc,
-                SelectedPlaylist.get(),
+                selectedPlaylist,
                 function(err, id) {
       if (err) {
         that.done(err);

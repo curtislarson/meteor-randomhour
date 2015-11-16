@@ -1,6 +1,6 @@
 <template name="setup">
   <div class="container">
-    {{#autoForm schema=setupSchema id="setupForm" type="normal"}}
+    {{#autoForm schema=setupSchema id="setupForm" type="normal" preserveForm=false}}
     <div class="row">
       <div class="col-md-6 col-xs-6 col-md-offset-3 col-xs-offset-3">
         {{> afQuickField id="playlistSearch" name="playlistSearch"}}

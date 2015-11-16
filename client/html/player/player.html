@@ -1,6 +1,19 @@
 <template name="player">
   <div class="container">
+    {{#with powerHour}}
     <div class="row medium-margin">
+      <div class="col-md-4 col-xs-4 col-md-offset-2 col-xs-offset-2">
+        <label>Playlist: <span class="red">{{title}}</span></label>
+      </div>
+      <div class="col-md-2 col-xs-2">
+        <label>Number of Plays: <span class="red">{{numPlayed}}</span></label>
+      </div>
+      <div class="col-md-3 col-xs-3">
+        <label>Current Song Number: <span class="red">{{currentSong}}</span></label>
+      </div>
+    </div>
+    {{/with}}
+    <div class="row">
       <div class="col-md-8 col-xs-8 col-md-offset-2 col-xs-offset-2">
         <div id="player"></div>
       </div>

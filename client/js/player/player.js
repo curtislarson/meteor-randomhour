@@ -12,10 +12,20 @@ onYouTubeIframeAPIReady = function() {
   player = new YT.Player("player", {
     events: {
       "onReady": onPlayerReady,
-      "onStateChange": onPlayerStateChange
+      "onStateChange": onPlayerStateChange,
+      "onError": onError
+    },
+    playerVars: {
+      controls: 0,
+      iv_load_policy: 3,
+      loop: 1
     }
   });
 };
+
+var onError = function(event) {
+  console.log("ERROR!", event)
+}
 
 var onPlayerReady = function() {
   PlayerReady.set(true);
@@ -43,6 +53,9 @@ var incrementSongCount = function() {
     player.stopVideo();
     timer.stop();
   }
+  else {
+    CurrentSong.set(songNumber);
+  }
 };
 
 var nextVideo = function() {
@@ -51,9 +64,8 @@ var nextVideo = function() {
 
   var duration = player.getDuration();
   var metadata = Metadata.get();
-  var maxStartTime = duration;
-  if (duration > (metadata.duration + (SONG_BUFFER * 2))) {
-    maxStartTime = duration - (metadata.duration + SONG_BUFFER);
+  if (duration >= (metadata.duration + (SONG_BUFFER * 2))) {
+    var maxStartTime = duration - (metadata.duration + SONG_BUFFER);
     var startTime = Math.floor(Math.random() * maxStartTime) + SONG_BUFFER;
     player.seekTo(startTime, true);
     player.playVideo();
@@ -92,6 +104,7 @@ Template.player.onRendered(function() {
 
   var powerHour = PowerHours.findOne({});
   PowerHour.set(powerHour);
+  Meteor.call("incrementPlayCount", powerHour._id);
 
   YT.load();
   YTConfig.host = "http://www.youtube.com";
@@ -108,3 +121,11 @@ Template.player.onRendered(function() {
   });
 });
 
+Template.player.helpers({
+  powerHour: function() {
+    return PowerHours.findOne({});
+  },
+  currentSong: function() {
+    return CurrentSong.get();
+  }
+});
