@@ -6,9 +6,11 @@ Meteor.methods({
 
     var playlistId = playlist.id.playlistId;
     var powerHourSlug = null;
+    var powerHourId = null;
     var powerHour = PowerHours.findOne({playlistId: playlistId});
     if (powerHour) {
       powerHourSlug = powerHour.slug;
+      powerHourId = powerHour._id;
     }
     else {
       var insertObject = {
@@ -16,7 +18,7 @@ Meteor.methods({
         playlist: playlist,
         title: playlist.snippet.title
       };
-      var powerHourId = PowerHours.insert(insertObject);
+      powerHourId = PowerHours.insert(insertObject);
       powerHourSlug = PowerHours.findOne({_id: powerHourId}).slug;
     }
 

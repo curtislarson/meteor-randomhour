@@ -19,6 +19,10 @@ Template.setup.events({
     }
   }, 200),
 
+  "keydown #setupForm": function() {
+    event.stopPropagation();
+  },
+
   "click .playlist-item": function() {
     SelectedPlaylist.set(this);
   }
@@ -65,7 +69,7 @@ AutoForm.addHooks("setupForm", {
   },
 
   onSuccess: function(formType, result) {
-    Router.go("/play/" + result.powerHourId + "?meta=" + result.metadataId);
+    Router.go("/play/" + result.powerHourSlug + "?meta=" + result.metadataId);
   },
 
   onError: function(formType, error) {

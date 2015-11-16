@@ -9,6 +9,10 @@ body, html {
   margin-top: 30px;
 }
 
+.medium-margin {
+  margin-top: 50px;
+}
+
 .large-bottom-margin {
   margin-bottom: 100px;
 }
