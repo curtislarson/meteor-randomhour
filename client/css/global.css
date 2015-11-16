@@ -1,0 +1,34 @@
+body, html {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+}
+
+
+/* MARGINS */
+
+.small-margin {
+  margin-top: 30px;
+}
+
+/* TEXT */
+
+.center-text {
+  text-align: center;
+}
+
+.red {
+  color: #DC2725;
+}
+
+/* BUTTONS */
+
+.red-button {
+  background-color: #DC2725;
+  color: #FFF;
+  width: 100%;
+}
+
+.red-button:hover {
+  background-color: #c62220;
+  color: #FFF;
+  width: 100%;
+}

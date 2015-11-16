@@ -1,0 +1,17 @@
+.jumbotron {
+  background-color: #FFF;
+  padding-top: 18px;
+  padding-bottom: 18px;
+}
+
+.jumbotron h2 {
+  color: #DC2725;
+}
+
+.jumbotron h4 {
+  line-height: 1.5em;
+}
+
+.title-label {
+  font-weight: 400;
+}

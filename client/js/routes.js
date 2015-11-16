@@ -6,26 +6,26 @@ Router.route("/", {
   }
 });
 
-Router.route("/login", {
-  name: "login",
-  layoutTemplate: "mainLayout",
-  action: function() {
-    this.render("login");
-  }
-});
-
-Router.route("/register", {
-  name: "register",
-  layoutTemplate: "mainLayout",
-  action: function() {
-    this.render("register");
-  }
-});
-
 Router.route("/about", {
   name: "about",
   layoutTemplate: "mainLayout",
   action: function() {
     this.render("about");
+  }
+});
+
+Router.route("/classic", {
+  name: "classic",
+  layoutTemplate: "mainLayout",
+  action: function() {
+    this.render("classic");
+  }
+});
+
+Router.route("/power-hour", {
+  name: "powerHour",
+  layoutTemplate: "mainLayout",
+  action: function() {
+    this.render("powerHour");
   }
 });
