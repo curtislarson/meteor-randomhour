@@ -17,7 +17,7 @@ Template.setup.events({
     if (val !== "") {
       YouTubeSearch.search(val);
     }
-  }, 200),
+  }, 100),
 
   "keyup #setupForm": function() {
     event.stopPropagation();

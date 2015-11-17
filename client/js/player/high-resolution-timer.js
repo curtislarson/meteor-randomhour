@@ -36,13 +36,25 @@ HighResolutionTimer = (function() {
     this.pause = function() {
       var now = Date.now();
       this.savedTime = now - this.current_time;
+      this.paused = true;
       clearTimeout(this.timer);
       return this;
     };
 
     this.unpause = function() {
-      this.current_time = Date.now();
-      var nextTick = this.savedTime - (this.current_time - (this.start_time + (this.total_ticks * this.duration) ) );
+      if (this.paused) {
+        this.current_time = Date.now();
+        var nextTick = this.savedTime - (this.current_time - (this.start_time + (this.total_ticks * this.duration)));
+        console.log("nextTick=", nextTick);
+        this.paused = false;
+        this.savedTime = 0;
+        (function(i) {
+          i.timer = setTimeout(function() {
+            i.run();
+          }, nextTick);
+        }(this));
+      }
+      return this;
     }
  
     this.stop = function() {

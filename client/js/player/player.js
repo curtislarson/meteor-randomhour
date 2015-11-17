@@ -1,6 +1,10 @@
 var Metadata = new ReactiveVar(null);
 var PowerHour = new ReactiveVar(null);
+
 var CurrentSong = new ReactiveVar(0);
+var CurrentSongInfo = new ReactiveVar(null);
+var SongIds = new ReactiveVar(null);
+
 var PlayerReady = new ReactiveVar(false);
 
 var SONG_BUFFER = 10;
@@ -58,9 +62,33 @@ var incrementSongCount = function() {
   }
 };
 
+var populateVideoInformation = function(index) {
+  var videoId = SongIds.get()[index];
+  Meteor.call("getVideoInfo", videoId, function(err, resp) {
+    if (err) {
+      Notifications.error("Error", "Error retrieving video information");
+    }
+    else {
+      console.log("resp=", resp);
+      CurrentSongInfo.set(resp);
+    }
+  });
+};
+
 var nextVideo = function() {
+  var playlistIndex = player.getPlaylistIndex();
   player.nextVideo();
   player.pauseVideo();
+
+  // Fix for always playing the last song
+  var playlistIndex2 = player.getPlaylistIndex();
+  if (playlistIndex === playlistIndex2) {
+    var playlistLength = SongIds.get().length;
+    var newIndex = Math.floor(Math.random() * playlistLength);
+    player.playVideoAt(newIndex);
+    player.pauseVideo();
+    playlistIndex2 = newIndex;
+  }
 
   var duration = player.getDuration();
   var metadata = Metadata.get();
@@ -75,6 +103,8 @@ var nextVideo = function() {
     // Next video, not long enough
     nextVideo();
   }
+
+  populateVideoInformation(playlistIndex2);
 };
 
 var startTimer = function() {
@@ -88,6 +118,8 @@ var startTimer = function() {
 
 var startPowerHour = function() {
   player.setShuffle(true);
+  var songIds = player.getPlaylist();
+  SongIds.set(songIds);
   startTimer();
 };
 
@@ -127,5 +159,14 @@ Template.player.helpers({
   },
   currentSong: function() {
     return CurrentSong.get();
+  },
+  currentSongInfo: function() {
+    return CurrentSongInfo.get();
+  },
+  totalSongNumber: function() {
+    var metadata = Metadata.get();
+    if (metadata) {
+      return metadata.numSongs;
+    }
   }
 });

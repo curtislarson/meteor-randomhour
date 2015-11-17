@@ -13,6 +13,7 @@ SearchSource.defineSource("youtube", function(searchText, options) {
     }
   }
   catch(err) {
+    console.log(err.stack);
     throw new Meteor.Error("YouTube Error", err.reason || err);
   }
 });

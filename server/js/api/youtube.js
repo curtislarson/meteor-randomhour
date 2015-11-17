@@ -8,5 +8,14 @@ YouTube.searchPlaylist = function(searchText, callback) {
     q: searchText,
   }, function(err, data) {
     callback(err, data);
-  })
-}
+  });
+};
+
+YouTube.getVideoInfo = function(id, callback) {
+  YoutubeApi.videos.list({
+    part: "snippet",
+    id: id
+  }, function(err, data) {
+    callback(err, data);
+  });
+};

@@ -2,18 +2,25 @@
   <div class="container">
     {{#with powerHour}}
     <div class="row medium-margin">
-      <div class="col-md-4 col-xs-4 col-md-offset-2 col-xs-offset-2">
-        <label>Playlist: <span class="red">{{title}}</span></label>
+      <div class="col-md-10 col-xs-10 col-md-offset-2 col-xs-offset-2">
+        <h2><span class="red">{{title}}</span> - {{numPlayed}} Views</h2>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-10 col-xs-10 col-md-offset-2 col-xs-offset-2">
+        <h4><span class="red">{{currentSongInfo.snippet.title}}</span> ({{currentSong}} / {{totalSongNumber}})</h4>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-2 col-xs-2 col-md-offset-2 col-xs-offset-2">
+        <button type="button" class="btn {{#if isPaused}}green-button{{else}}red-button{{/if}} pause-play-button">{{#if isPaused}}Play{{else}}Pause{{/if}}</button>
       </div>
       <div class="col-md-2 col-xs-2">
-        <label>Number of Plays: <span class="red">{{numPlayed}}</span></label>
-      </div>
-      <div class="col-md-3 col-xs-3">
-        <label>Current Song Number: <span class="red">{{currentSong}}</span></label>
+        <button type="button" class="btn red-button share-button">Share</button>
       </div>
     </div>
     {{/with}}
-    <div class="row">
+    <div class="row label-margin">
       <div class="col-md-8 col-xs-8 col-md-offset-2 col-xs-offset-2">
         <div id="player"></div>
       </div>
