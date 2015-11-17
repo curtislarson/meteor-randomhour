@@ -27,3 +27,11 @@ Router.route("/about", {
     this.render("about");
   }
 });
+
+Router.route("/privacy", {
+  name: "privacy",
+  layoutTemplate: "mainLayout",
+  action: function() {
+    this.render("privacy");
+  }
+});
