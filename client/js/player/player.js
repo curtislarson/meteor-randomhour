@@ -44,6 +44,7 @@ var onPlayerStateChange = function(event) {
       console.log("PLAYING!");
       break;
     case YT.PlayerState.CUED:
+      console.log("CUED starting!");
       startPowerHour();
       break;
     default:
@@ -65,7 +66,10 @@ var incrementSongCount = function() {
 };
 
 var populateVideoInformation = function(index) {
+  console.log("index=", index);
+  console.log(SongIds.get());
   var videoId = SongIds.get()[index];
+  console.log("videoId=", videoId);
   Meteor.call("getVideoInfo", videoId, function(err, resp) {
     if (err) {
       Notifications.error("Error", "Error retrieving video information");
@@ -78,18 +82,19 @@ var populateVideoInformation = function(index) {
 };
 
 var nextVideo = function(incrementCounter) {
-  var playlistIndex = player.getPlaylistIndex();
   player.nextVideo();
   player.pauseVideo();
 
   // Fix for always playing the last song
-  var playlistIndex2 = player.getPlaylistIndex();
-  if (playlistIndex === playlistIndex2) {
+  var playlistIndex = player.getPlaylistIndex();
+  var playlistLength = SongIds.get().length;
+
+  if (playlistIndex === (playlistLength - 1)) {
     var playlistLength = SongIds.get().length;
     var newIndex = Math.floor(Math.random() * playlistLength);
     player.playVideoAt(newIndex);
     player.pauseVideo();
-    playlistIndex2 = newIndex;
+    playlistIndex = newIndex;
   }
 
   var duration = player.getDuration();
@@ -98,7 +103,9 @@ var nextVideo = function(incrementCounter) {
     var maxStartTime = duration - (metadata.duration + SONG_BUFFER);
     var startTime = Math.floor(Math.random() * maxStartTime) + SONG_BUFFER;
     player.seekTo(startTime, true);
+    console.log("playing");
     player.playVideo();
+    console.log(player.getPlaylistIndex());
     if (incrementCounter) {
       incrementSongCount();
     }
@@ -108,11 +115,12 @@ var nextVideo = function(incrementCounter) {
     nextVideo(true);
   }
 
-  populateVideoInformation(playlistIndex2);
+  populateVideoInformation(playlistIndex);
 };
 
 var startTimer = function() {
   var metadata = Metadata.get();
+  console.log("start timer");
   timer = HighResolutionTimer({
     duration: (metadata.duration * 1000) + 2000,
     callback: function() {
@@ -123,6 +131,7 @@ var startTimer = function() {
 };
 
 var startPowerHour = function() {
+  console.log("shuffle");
   player.setShuffle(true);
   var songIds = player.getPlaylist();
   SongIds.set(songIds);
@@ -161,6 +170,7 @@ Template.player.onRendered(function() {
 
 Template.player.events({
   "click .pause-play-button": function() {
+    console.log("pause-play-button");
     var paused = IsPaused.get();
     if (paused) {
       timer.unpause();
@@ -171,6 +181,17 @@ Template.player.events({
       player.pauseVideo();
     }
     IsPaused.set(!paused);
+  },
+  "click .btn-facebook": function() {
+    var link = "https://www.facebook.com/sharer/sharer.php?u=" +
+      encodeURIComponent(window.location);
+    window.open(link, "", "height=440,width=640,scrollbars=yes");
+  },
+  "click .btn-twitter": function() {
+    var link = "https://twitter.com/share?url=" +
+      encodeURIComponent(window.location) + "&text=" +
+      encodeURIComponent("Listening to an awesome #powerhour on RandomPowerHour.com!");
+    window.open(link, "", "height=440,width=640,scrollbars=yes");
   }
 });
 
@@ -192,5 +213,5 @@ Template.player.helpers({
     if (metadata) {
       return metadata.numSongs;
     }
-  }
+  },
 });

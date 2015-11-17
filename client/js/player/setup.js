@@ -9,6 +9,8 @@ Template.setup.onCreated(function() {
   };
   var fields = ["title"];
   YouTubeSearch = new SearchSource("youtube", fields, options);
+
+  SelectedPlaylist.set(null);
 });
 
 Template.setup.events({

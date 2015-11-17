@@ -15,8 +15,11 @@
       <div class="col-md-2 col-xs-2 col-md-offset-2 col-xs-offset-2">
         <button type="button" class="btn {{#if isPaused}}green-button{{else}}red-button{{/if}} pause-play-button">{{#if isPaused}}Play{{else}}Pause{{/if}}</button>
       </div>
-      <div class="col-md-2 col-xs-2">
-        <button type="button" class="btn blue-button share-button">Share</button>
+      <div class="col-md-3 col-xs-3">
+        <button type="button" class="btn btn-block btn-social btn-facebook"><span class="fa fa-facebook"></span>Share on Facebook</button>
+      </div>
+      <div class="col-md-3 col-xs-3">
+        <button class="btn btn-block btn-social btn-twitter"><span class="fa fa-twitter"></span>Share on Twitter</button>
       </div>
     </div>
     {{/with}}
