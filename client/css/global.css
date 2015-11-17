@@ -13,6 +13,10 @@ body, html {
   margin-top: 50px;
 }
 
+.large-margin {
+  margin-top: 100px;
+}
+
 .large-bottom-margin {
   margin-bottom: 100px;
 }
