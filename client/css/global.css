@@ -69,3 +69,15 @@ label {
   color: #FFF;
   width: 100%;
 }
+
+.blue-button {
+  background-color: #0C69A9;
+  color: #FFF;
+  width: 100%;
+}
+
+.blue-button:hover {
+  background-color: #115C8F;
+  color: #FFF;
+  width: 100%;
+}

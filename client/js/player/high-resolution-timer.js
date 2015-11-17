@@ -11,6 +11,7 @@ HighResolutionTimer = (function() {
  
     this.start_time = undefined;
     this.current_time = undefined;
+    this.next_tick = 0;
  
     this.duration = (options.duration) ? options.duration : 1000;
     this.callback = (options.callback) ? options.callback : function() {};
@@ -21,9 +22,8 @@ HighResolutionTimer = (function() {
       
       this.callback(this);
  
-      var nextTick = this.duration - (this.current_time - (this.start_time + (this.total_ticks * this.duration) ) );
+      var nextTick = this.next_tick = this.duration - (this.current_time - (this.start_time + (this.total_ticks * this.duration) ) );
       this.total_ticks++;
- 
       (function(i) {
         i.timer = setTimeout(function() {
           i.run();
@@ -44,7 +44,8 @@ HighResolutionTimer = (function() {
     this.unpause = function() {
       if (this.paused) {
         this.current_time = Date.now();
-        var nextTick = this.savedTime - (this.current_time - (this.start_time + (this.total_ticks * this.duration)));
+        var nextTick = this.next_tick - this.savedTime;
+        this.next_tick = nextTick;
         console.log("nextTick=", nextTick);
         this.paused = false;
         this.savedTime = 0;

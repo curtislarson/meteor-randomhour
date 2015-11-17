@@ -4,6 +4,7 @@ var PowerHour = new ReactiveVar(null);
 var CurrentSong = new ReactiveVar(0);
 var CurrentSongInfo = new ReactiveVar(null);
 var SongIds = new ReactiveVar(null);
+var IsPaused = new ReactiveVar(false);
 
 var PlayerReady = new ReactiveVar(false);
 
@@ -28,7 +29,8 @@ onYouTubeIframeAPIReady = function() {
 };
 
 var onError = function(event) {
-  console.log("ERROR!", event)
+  console.log("ERROR!", event);
+  nextVideo();
 }
 
 var onPlayerReady = function() {
@@ -75,7 +77,7 @@ var populateVideoInformation = function(index) {
   });
 };
 
-var nextVideo = function() {
+var nextVideo = function(incrementCounter) {
   var playlistIndex = player.getPlaylistIndex();
   player.nextVideo();
   player.pauseVideo();
@@ -97,11 +99,13 @@ var nextVideo = function() {
     var startTime = Math.floor(Math.random() * maxStartTime) + SONG_BUFFER;
     player.seekTo(startTime, true);
     player.playVideo();
-    incrementSongCount();
+    if (incrementCounter) {
+      incrementSongCount();
+    }
   }
   else {
     // Next video, not long enough
-    nextVideo();
+    nextVideo(true);
   }
 
   populateVideoInformation(playlistIndex2);
@@ -111,7 +115,9 @@ var startTimer = function() {
   var metadata = Metadata.get();
   timer = HighResolutionTimer({
     duration: (metadata.duration * 1000) + 2000,
-    callback: nextVideo
+    callback: function() {
+      nextVideo(true);
+    }
   });
   timer.run();
 };
@@ -153,9 +159,27 @@ Template.player.onRendered(function() {
   });
 });
 
+Template.player.events({
+  "click .pause-play-button": function() {
+    var paused = IsPaused.get();
+    if (paused) {
+      timer.unpause();
+      player.playVideo();
+    }
+    else {
+      timer.pause();
+      player.pauseVideo();
+    }
+    IsPaused.set(!paused);
+  }
+});
+
 Template.player.helpers({
   powerHour: function() {
     return PowerHours.findOne({});
+  },
+  isPaused: function() {
+    return IsPaused.get();
   },
   currentSong: function() {
     return CurrentSong.get();
