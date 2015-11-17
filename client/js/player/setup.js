@@ -41,6 +41,17 @@ Template.setup.helpers({
   selectedPlaylist: function() {
     return SelectedPlaylist.get();
   },
+  isSelected: function(playlist) {
+    var selectedPlaylist = SelectedPlaylist.get();
+    console.log("selected=", selectedPlaylist);
+    console.log("playlist=", playlist._id);
+    if (selectedPlaylist) {
+      return playlist._id === selectedPlaylist._id;
+    }
+    else {
+      return false;
+    }
+  }
 });
 
 Template.playerOptions.onRendered(function() {
@@ -58,6 +69,7 @@ AutoForm.addHooks("setupForm", {
     var selectedPlaylist = SelectedPlaylist.get();
     if (!selectedPlaylist) {
       Notifications.error("Please select a playlist!");
+      GAnalytics.event("setup", "noPlaylist");
       return false;
     }
     GAnalytics.event("setup", "powerHourCreated");
