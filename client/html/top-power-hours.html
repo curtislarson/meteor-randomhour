@@ -1,0 +1,23 @@
+<template name="topPowerHours">
+  <div class="container">
+    <div class="row adsense-top-row">
+    </div>
+    <div class="row">
+      <div class="col-md-12 col-xs-12 center-text">
+        <h2 class="red">Top Power Hours</h2>
+      </div>
+    </div>
+    <div class="row">
+      {{#each topPowerHours}}
+        <a href="/play/{{slug}}" class="playlist-item">
+          <div class="col-md-3 col-xs-3 center-text small-margin">
+            <img src="{{playlist.snippet.thumbnails.default.url}}" class="center-block img-responsive"/>
+            <label class="title-label" style="margin-top:5px;">{{playlist.snippet.title}}</label>
+            <br/>
+            <label class="title-label red">{{numPlayed}} Views</label>
+          </div>
+        </a>
+      {{/each}}
+    </div>
+  </div>
+</template>

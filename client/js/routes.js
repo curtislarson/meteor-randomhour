@@ -20,6 +20,19 @@ Router.route("/play/:powerHourSlug", {
   }
 });
 
+Router.route("/top-power-hours", {
+  name: "topPowerHours",
+  layoutTemplate: "mainLayout",
+  waitOn: function() {
+    return [
+      Meteor.subscribe("topPowerHours")
+    ];
+  },
+  action: function() {
+    this.render("topPowerHours");
+  }
+});
+
 Router.route("/about", {
   name: "about",
   layoutTemplate: "mainLayout",

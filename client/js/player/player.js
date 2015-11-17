@@ -132,7 +132,7 @@ var startPowerHour = function() {
 
 Template.player.onRendered(function() {
   var metadata = PowerHourMetadata.findOne({});
-  if (!metadata) {
+  if (metadata === undefined) {
     metadata = {
       numSongs: 60,
       duration: 60
@@ -143,6 +143,7 @@ Template.player.onRendered(function() {
 
   var powerHour = PowerHours.findOne({});
   PowerHour.set(powerHour);
+  console.log("powerHour=", powerHour);
   Meteor.call("incrementPlayCount", powerHour._id);
 
   YT.load();
@@ -163,6 +164,8 @@ Template.player.onRendered(function() {
   if (!Meteor.Device.isPhone()) {
     Adsense.addSidebarCode();
   }
+
+  document.title = powerHour.title + " - " + document.title;
 });
 
 Template.player.events({
