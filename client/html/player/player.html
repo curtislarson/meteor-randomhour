@@ -4,35 +4,49 @@
     </div>
     {{#with powerHour}}
     <div class="row">
-      <div class="col-md-10 col-xs-10 col-md-offset-2 col-xs-offset-2">
+      <div class="col-md-10 col-xs-12 col-md-offset-2">
         <h2><span class="red">{{title}}</span> - {{numPlayed}} Views</h2>
       </div>
     </div>
     <div class="row">
-      <div class="col-md-10 col-xs-10 col-md-offset-2 col-xs-offset-2">
+      <div class="col-md-10 col-xs-12 col-md-offset-2">
         <h4><span class="red">{{currentSongInfo.snippet.title}}</span> ({{currentSong}} / {{totalSongNumber}})</h4>
       </div>
     </div>
     <div class="row">
-      <div class="col-md-2 col-xs-2 col-md-offset-2 col-xs-offset-2">
+      <div class="col-md-2 col-xs-4 col-md-offset-2">
         <button type="button" class="btn {{#if isPaused}}green-button{{else}}red-button{{/if}} pause-play-button">{{#if isPaused}}Play{{else}}Pause{{/if}}</button>
       </div>
-      <div class="col-md-3 col-xs-3">
+      <div class="col-md-3 col-xs-4">
+        {{#if isPhone}}
+        <button type="button" class="btn btn-block btn-social btn-facebook center-text">Facebook</button>
+        {{else}}
         <button type="button" class="btn btn-block btn-social btn-facebook center-text"><span class="fa fa-facebook"></span>Share on Facebook</button>
+        {{/if}}
       </div>
-      <div class="col-md-3 col-xs-3">
+      <div class="col-md-3 col-xs-4">
+        {{#if isPhone}}
+        <button class="btn btn-block btn-social btn-twitter center-text">Twitter</button>
+        {{else}}
         <button class="btn btn-block btn-social btn-twitter center-text"><span class="fa fa-twitter"></span>Share on Twitter</button>
+        {{/if}}
       </div>
     </div>
     {{/with}}
     <div class="row label-margin">
-      <div class="col-md-2 col-xs-2 adsense-side-bar-left">
+      {{#if isPhone}}
+      {{else}}
+      <div class="col-md-2 adsense-side-bar-left">
       </div>
-      <div class="col-md-8 col-xs-8">
+      {{/if}}
+      <div class="col-md-8 col-xs-12">
         <div id="player"></div>
       </div>
-      <div class="col-md-2 col-xs-2 adsense-side-bar-right">
+      {{#if isPhone}}
+      {{else}}
+      <div class="col-md-2 adsense-side-bar-right">
       </div>
+      {{/if}}
     </div>
   </div>
 </template>

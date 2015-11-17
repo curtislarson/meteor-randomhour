@@ -5,6 +5,27 @@ body, html {
 
 /* MARGINS */
 
+@media (max-width: 992px) {
+  .small-margin {
+    margin-top: 15px;
+  }
+
+  .medium-margin {
+    margin-top: 25px;
+  }
+
+  .large-margin {
+    margin-top: 50px;
+  }
+
+  .large-bottom-margin {
+    margin-bottom: 50px;
+  }
+
+  .label-margin {
+    margin-top: 5px;
+  }
+}
 .small-margin {
   margin-top: 30px;
 }

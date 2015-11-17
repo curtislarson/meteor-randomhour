@@ -160,7 +160,9 @@ Template.player.onRendered(function() {
   });
 
   Adsense.addTopBarCode();
-  Adsense.addSidebarCode();
+  if (!Meteor.Device.isPhone()) {
+    Adsense.addSidebarCode();
+  }
 });
 
 Template.player.events({

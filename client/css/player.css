@@ -1,16 +1,42 @@
-#player {
-  width: 800px;
-  height: 600px;
+@media (max-width: 992px) {
+  #player {
+    width: 350px;
+    height: 225px;
+  }
+
+  .adsense-top-row {
+    height: 45px;
+  }
+
+  h2 {
+    font-size: 15px;
+  }
+
+  h4 {
+    font-size: 10px;
+  }
+
+  .btn-social {
+    padding-left: 0px;
+  }
 }
 
-.adsense-top-row {
-  height: 90px;
-}
 
-.adsense-side-bar-left {
-  height: 600px;
-}
+@media (min-width: 992px) {
+  #player {
+    width: 800px;
+    height: 600px;
+  }
 
-.adsense-side-bar-right {
-  height: 600px;
+  .adsense-top-row {
+    height: 90px;
+  }
+
+  .adsense-side-bar-left {
+    height: 600px;
+  }
+
+  .adsense-side-bar-right {
+    height: 600px;
+  }
 }

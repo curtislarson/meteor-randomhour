@@ -1,3 +1,11 @@
+@media (min-width: 992px) {
+  a.navbar-custom-brand {
+    color: #DC2725!important;
+    font-weight: 700;
+    font-size: 16px;
+  }
+}
+
 a.navbar-custom-brand {
   color: #DC2725!important;
   font-weight: 700;

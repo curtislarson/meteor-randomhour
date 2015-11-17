@@ -10,4 +10,4 @@ Randomly play a power hour from a YouTube playlist instantly
 - Popular playlist page
 - User login
 - Better sharing
-- Mobile responsive
+- Analytics event
