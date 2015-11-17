@@ -21,7 +21,6 @@ onYouTubeIframeAPIReady = function() {
       "onError": onError
     },
     playerVars: {
-      controls: 0,
       iv_load_policy: 3,
       loop: 1
     }
@@ -40,6 +39,10 @@ var onPlayerReady = function() {
 var onPlayerStateChange = function(event) {
   var state = event.data;
   switch (state) {
+    case -1:
+      var link = player.getVideoUrl();
+      populateVideoInformation(link.split("v=")[1]);
+      break;
     case YT.PlayerState.PLAYING:
       console.log("PLAYING!");
       break;
@@ -65,17 +68,12 @@ var incrementSongCount = function() {
   }
 };
 
-var populateVideoInformation = function(index) {
-  console.log("index=", index);
-  console.log(SongIds.get());
-  var videoId = SongIds.get()[index];
-  console.log("videoId=", videoId);
+var populateVideoInformation = function(videoId) {
   Meteor.call("getVideoInfo", videoId, function(err, resp) {
     if (err) {
       Notifications.error("Error", "Error retrieving video information");
     }
     else {
-      console.log("resp=", resp);
       CurrentSongInfo.set(resp);
     }
   });
@@ -103,9 +101,7 @@ var nextVideo = function(incrementCounter) {
     var maxStartTime = duration - (metadata.duration + SONG_BUFFER);
     var startTime = Math.floor(Math.random() * maxStartTime) + SONG_BUFFER;
     player.seekTo(startTime, true);
-    console.log("playing");
     player.playVideo();
-    console.log(player.getPlaylistIndex());
     if (incrementCounter) {
       incrementSongCount();
     }
@@ -114,13 +110,10 @@ var nextVideo = function(incrementCounter) {
     // Next video, not long enough
     nextVideo(true);
   }
-
-  populateVideoInformation(playlistIndex);
 };
 
 var startTimer = function() {
   var metadata = Metadata.get();
-  console.log("start timer");
   timer = HighResolutionTimer({
     duration: (metadata.duration * 1000) + 2000,
     callback: function() {
@@ -131,7 +124,6 @@ var startTimer = function() {
 };
 
 var startPowerHour = function() {
-  console.log("shuffle");
   player.setShuffle(true);
   var songIds = player.getPlaylist();
   SongIds.set(songIds);
@@ -170,7 +162,6 @@ Template.player.onRendered(function() {
 
 Template.player.events({
   "click .pause-play-button": function() {
-    console.log("pause-play-button");
     var paused = IsPaused.get();
     if (paused) {
       timer.unpause();
