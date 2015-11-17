@@ -1,7 +1,6 @@
 <template name="player">
   <div class="container">
-    <div class="row">
-      {{{adsenseCode}}}
+    <div class="row adsense-top-row">
     </div>
     {{#with powerHour}}
     <div class="row">
@@ -27,8 +26,12 @@
     </div>
     {{/with}}
     <div class="row label-margin">
-      <div class="col-md-8 col-xs-8 col-md-offset-2 col-xs-offset-2">
+      <div class="col-md-2 col-xs-2 adsense-side-bar-left">
+      </div>
+      <div class="col-md-8 col-xs-8">
         <div id="player"></div>
+      </div>
+      <div class="col-md-2 col-xs-2 adsense-side-bar-right">
       </div>
     </div>
   </div>

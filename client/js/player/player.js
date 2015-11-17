@@ -158,6 +158,9 @@ Template.player.onRendered(function() {
       });
     }
   });
+
+  Adsense.addTopBarCode();
+  Adsense.addSidebarCode();
 });
 
 Template.player.events({
