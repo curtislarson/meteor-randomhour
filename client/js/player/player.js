@@ -163,6 +163,7 @@ Template.player.onRendered(function() {
 Template.player.events({
   "click .pause-play-button": function() {
     var paused = IsPaused.get();
+    GAnalytics.event("player", "playPause", paused);
     if (paused) {
       timer.unpause();
       player.playVideo();
@@ -174,11 +175,13 @@ Template.player.events({
     IsPaused.set(!paused);
   },
   "click .btn-facebook": function() {
+    GAnalytics.event("player", "shareFacebook");
     var link = "https://www.facebook.com/sharer/sharer.php?u=" +
       encodeURIComponent(window.location);
     window.open(link, "", "height=440,width=640,scrollbars=yes");
   },
   "click .btn-twitter": function() {
+    GAnalytics.event("player", "shareTwitter");
     var link = "https://twitter.com/share?url=" +
       encodeURIComponent(window.location) + "&text=" +
       encodeURIComponent("Listening to an awesome #powerhour on RandomPowerHour.com!");

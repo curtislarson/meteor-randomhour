@@ -36,7 +36,6 @@ Template.setup.helpers({
   },
   searchResults: function() {
     var data = YouTubeSearch.getData();
-    console.log(data);
     return data;
   },
   selectedPlaylist: function() {
@@ -61,7 +60,7 @@ AutoForm.addHooks("setupForm", {
       Notifications.error("Please select a playlist!");
       return false;
     }
-
+    GAnalytics.event("setup", "powerHourCreated");
     Meteor.call("createPowerHour",
                 insertDoc,
                 selectedPlaylist,
