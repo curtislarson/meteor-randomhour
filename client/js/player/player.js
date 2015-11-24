@@ -166,6 +166,7 @@ Template.player.onRendered(function() {
   }
 
   document.title = powerHour.title + " - " + document.title;
+  $('meta[name=description]').attr('content', powerHour.title + " random power hour");
 });
 
 Template.player.events({
