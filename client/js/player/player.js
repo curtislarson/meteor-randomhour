@@ -131,6 +131,7 @@ var startPowerHour = function() {
 };
 
 Template.player.onRendered(function() {
+  PlayerReady.set(false);
   var metadata = PowerHourMetadata.findOne({});
   if (metadata === undefined) {
     metadata = {
