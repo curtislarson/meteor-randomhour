@@ -13,7 +13,7 @@
         <a href="#" class="playlist-item">
           <div class="col-md-4 col-xs-4 center-text small-margin">
             <img src="{{snippet.thumbnails.default.url}}" class="center-block img-responsive"/>
-            <label class="title-label {{#if isSelected this}}playlist-selected{{/if}}" style="margin-top:5px;">{{snippet.title}}</label>
+            <label class="title-label truncate {{#if isSelected this}}playlist-selected{{/if}}" style="margin-top:5px;">{{snippet.title}}</label>
           </div>
         </a>
       {{/each}}

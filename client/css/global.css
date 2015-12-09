@@ -25,7 +25,26 @@ body, html {
   .label-margin {
     margin-top: 5px;
   }
+
+  .truncate {
+    width: 100px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+  }
 }
+
+@media (min-width: 992px) {
+  .truncate {
+    width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+  }
+}
+
 .small-margin {
   margin-top: 30px;
 }
