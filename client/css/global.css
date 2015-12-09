@@ -33,6 +33,10 @@ body, html {
     text-overflow: ellipsis;
     text-align: center;
   }
+
+  .how-it-works {
+    font-size: 12px;
+  }
 }
 
 @media (min-width: 992px) {
@@ -42,6 +46,10 @@ body, html {
     overflow: hidden;
     text-overflow: ellipsis;
     text-align: center;
+  }
+
+  .how-it-works {
+    font-size: 18px;
   }
 }
 

@@ -33,6 +33,14 @@ Router.route("/top-power-hours", {
   }
 });
 
+Router.route("/how-it-works", {
+  name: "howItWorks",
+  layoutTemplate: "mainLayout",
+  action: function() {
+    this.render("howItWorks");
+  }
+});
+
 Router.route("/about", {
   name: "about",
   layoutTemplate: "mainLayout",
