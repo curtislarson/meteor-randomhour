@@ -35,6 +35,8 @@ email@1.0.7
 es5-shim@4.1.13
 fastclick@1.0.7
 fortawesome:fontawesome@4.4.0
+gadicohen:robots-txt@0.0.10
+gadicohen:sitemaps@0.0.23
 geojson-utils@1.0.4
 gfk:notifications@1.1.4
 hot-code-push@1.0.0
